@@ -1,0 +1,6 @@
+#zifuxx
+#Fri Jun 17 22:30:30 GMT+08:00 2016
+mr=21
+人才=88
+fuck=90
+ccav=1
