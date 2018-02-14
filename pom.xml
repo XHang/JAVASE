@@ -16,7 +16,7 @@
 		<groupId>jdbc</groupId>
 		<version>3.3.0</version>
 		<scope>system</scope>
-		<systemPath>E:\JAVAWork\JAVASE\lib\classes12.jar</systemPath>
+		<systemPath>C:\Users\Administrator\git\JAVASE\lib\classes12.jar</systemPath>
 	</dependency>
 	<!-- JDBC需要用到的驱动包 -->
 	<!-- junit测试框架 -->
