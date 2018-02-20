@@ -1,5 +1,10 @@
 package com.cxh.thread;
-
+/**
+ * 程序功能，线程开始运行后进入等待阶段，等到该线程被其他线程中断。
+ * 则设置退出标示为真，下次运行将自动退出
+ * @author Mr-hang
+ *
+ */
 public class StopThread  implements Runnable{
 	//线程循环/结束标志位
 	private boolean flag=true;		

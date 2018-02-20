@@ -1,4 +1,4 @@
-package com.cxh.thread;
+package com.cxh.vo;
 
 public class Lock {
 	//定义两个锁，A和B

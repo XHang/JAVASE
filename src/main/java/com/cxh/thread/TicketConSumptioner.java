@@ -3,6 +3,8 @@ package com.cxh.thread;
 /**
  * 
  * 模拟售票程序（抽象售票站）
+ * 主要用于多线程下的线程并发安全性问题
+ * 其使用案例在test程序包里面的ThreadExtendsImplTest类的main程序里面
  * @author Mr-hang
  */
 public class TicketConSumptioner implements Runnable{

@@ -32,14 +32,13 @@ public class ThreadExtendsImplTest {
 	 * junit测试框架测试的时候会造成线程突然间就挂的
 	 */
 	public static void main(String[] args) {
-		/*TicketConSumptioner sellSite = new TicketConSumptioner();
+		TicketConSumptioner sellSite = new TicketConSumptioner();
 		//建两个售票站，专门卖票
 		Thread thread1 = new Thread(sellSite);
 		Thread thread2 = new Thread(sellSite);
 		//开始卖票
 		thread1.start();
-		thread2.start();*/
-		new ThreadExtendsImplTest().stopThread();
+		thread2.start();
 	}
 	
 	/**

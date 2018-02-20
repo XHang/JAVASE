@@ -1,5 +1,7 @@
 package com.cxh.thread;
 
+import com.cxh.vo.Lock;
+
 /**
  * 死锁演示程序
  * @author Administrator
@@ -24,15 +26,13 @@ public class DeadLock  implements Runnable{
 		//线程A的执行线路
 		if(this.flag){
 			System.out.println("线程A已经进入执行线路");
-			synchronized (Lock.lockA) {
-				//在此处，线程A休眠几秒,让线程B拿到锁B，造成死锁
-				System.out.println("线程A成功拿到锁A了！");
-				try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
-				synchronized (Lock.lockB) {
-					System.out.println("线程A成功拿到锁B了！");
-				}
-				System.out.println("线程A释放了锁B！");
+			//在此处，线程A休眠几秒,让线程B拿到锁B，造成死锁
+			System.out.println("线程A成功拿到锁A了！");
+			try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
+			synchronized (Lock.lockB) {
+				System.out.println("线程A成功拿到锁B了！");
 			}
+			System.out.println("线程A释放了锁B！");
 			System.out.println("线程A释放了锁A！");
 		//线程B的执行线路
 		}else{

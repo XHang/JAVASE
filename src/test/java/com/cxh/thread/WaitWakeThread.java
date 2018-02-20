@@ -1,26 +1,40 @@
 package com.cxh.thread;
 
-import org.junit.Test;
 
-import com.cxh.vo.Resources;
+import com.cxh.vo.Box;
 
 /**
  * 演示多线程间通信的安全问题--解决方案-等待唤醒机制
  * @author Administrator
  * 这个程序模拟的是一个生产者，消费者的双线程例子
- * 生产者负责生产资料，消费者负责消费资料，他们
- *
+ * 生产者负责生产资料，消费者负责消费资料.
+ * 生产者要在消费者消费完资料后再生产
+ * 消费者要在生产者生成资料后再消费
+ * 两者顺序不可颠倒。
+ * 如果要实现这种功能的话，单纯的多线程并发并不行。
+ * 必须多加一个限制。
+ * 1: 货物加一个属性标示是否正忙。消费者/生产者根据这个标示来确定要不要消费/生产资料
+ * 2：生产者生产资料后，把消费者从睡眠状态中唤醒,然后进入睡眠状态
+ * 		同理，消费者消费完资料后也要把生产者唤醒，然后自身进入睡眠状态。
+ * 		这就是所谓的等待，唤醒机制
+ * PS：必须用锁对象的wait方法使当前线程等待，而且必须在同步代码块里面。
+ * 这样子才能用锁对象唤醒等待的线程，其他手段实现不了该功能
+ * 总结
+ * 1：等待唤醒机制是为了解决生产者/消费者线程反复生产/消费资料，造成浪费
+ * 2： 程序加锁的原因是为了防止生产者生产到一半就被消费者消费了。（执行权被抢了）
+ * 3. 加锁的不仅可以防止多个线程同时执行同一份代码块，还可以防止不同的代码块同时被几个多线程执行
+ *    仔细看这个代码
  */
 public class WaitWakeThread {
 	
 	public static void main(String[] args) {
 				//首先创建资源对象，确保资源对象唯一性，
-				Resources resources=new Resources();		
+				Box box=new Box();		
 				//传入资源对象，确保两个线程访问的是同一个资源
-				InputThread inputThread=new InputThread(resources);			
+				Loading loading=new Loading(box);			
 				//传入资源对象，确保两个线程访问的是同一个资源
-				OuterThread outThread=new OuterThread (resources);			
-				new Thread(inputThread).start();			//开启输入线程
-				new Thread(outThread).start();			//开启输出线程
+				Discharge discharge=new Discharge (box);			
+				new Thread(loading).start();			//开启输入线程
+				new Thread(discharge).start();			//开启输出线程
 	}
 }
