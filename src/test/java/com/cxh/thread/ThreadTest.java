@@ -6,7 +6,7 @@ import org.junit.Test;
  * 多线程测试类
  * @author Mr-hang
  */
-public class ThreadExtendsImplTest {
+public class ThreadTest {
 	
 	/**
 	 * 测试线程的抢占性测试程序
@@ -59,6 +59,23 @@ public class ThreadExtendsImplTest {
 				thread.interrupt();  //给线程1一砖头
 				break;
 			}
+		}
+	}
+	
+	/**
+	 * 演示下线程的join方法
+	 * @throws InterruptedException 
+	 * join 方法是令当前线程等待调用者线程执行完毕再往下执行
+	 */
+	@Test
+	public void join() throws InterruptedException{
+		Thread thread1 = new ThreadExtendsImpl("线程1");
+		Thread thread2 = new ThreadExtendsImpl("线程2");
+		thread1.start();
+		thread2.start();
+		thread1.join();
+		for(int i=0;i<200;i++){
+			System.out.println("主线程运行IMG");
 		}
 	}
 	
