@@ -78,7 +78,6 @@ public class Box {
 			putCondition.signal();
 			//解锁，生产者可以取到锁
 			lock.unlock();
-			
 		}
 	}
 	
