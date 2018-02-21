@@ -54,11 +54,11 @@ public class Box {
 			this.resourcesNum=233;
 			System.out.println("装货完毕");
 		}finally{
-			//解锁，消费者可以取到锁
-			lock.unlock();
 			//发送信号给消费者唤醒该线程
 			takeOutCondition.signal();
 			System.out.println("哥们，醒醒，可以卸货了");
+			//解锁，消费者可以取到锁
+			lock.unlock();
 		}
 	}
 	
@@ -74,10 +74,11 @@ public class Box {
 			this.resourcesName=null;
 			this.resourcesNum=null;
 		}finally{
+			//发送信号让生产者醒过来,这个唤醒必须在同步代码块里面执行，否则会抛 java.lang.IllegalMonitorStateException
+			putCondition.signal();
 			//解锁，生产者可以取到锁
 			lock.unlock();
-			//发送信号让生产者醒过来
-			putCondition.signal();
+			
 		}
 	}
 	
