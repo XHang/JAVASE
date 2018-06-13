@@ -1,5 +1,7 @@
 package com.cxh.thread;
 
+import com.cxh.vo.Cat;
+import com.cxh.vo.Person;
 import org.junit.Test;
 
 /**
@@ -78,5 +80,35 @@ public class ThreadTest {
 			System.out.println("主线程运行IMG");
 		}
 	}
+
+	@Test
+	public void threadTest(){
+		T1 t1 = new T1();
+		t1.start();
+		T2 t2 = new T2(t1);
+		t2.start();
+	}
+
+	class T1 extends  Thread{
+		public Person person = null;
+		@Override
+		public void run(){
+			person = new Person("线程1");
+		}
+	}
+
+	class T2 extends Thread{
+		T1 t1;
+		public T2(T1 t){
+			this.t1 = t;
+		}
+
+		@Override
+		public void run(){
+			System.out.println(t1.person.getName());
+		}
+
+	}
+
 	
 }

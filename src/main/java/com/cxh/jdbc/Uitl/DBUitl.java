@@ -23,7 +23,7 @@ public class DBUitl {
 	 */
 	public static Connection getConncetion(String userName,String password) throws SQLException{
 		//new此对象则自动向数据库连接大管家注册
-		new oracle.jdbc.driver.OracleDriver();	
+		//new oracle.jdbc.driver.OracleDriver();
 		//1521是oracle的监听器端口，orcl是实例名
 		return DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", userName,password);//如果这句程
 	}

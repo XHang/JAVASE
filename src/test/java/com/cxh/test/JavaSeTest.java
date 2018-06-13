@@ -44,4 +44,51 @@ public class JavaSeTest {
 		String s3=new String (b1,"GBK");  //2:用・GBK解码
 		System.out.println(s3);
 	}
+
+	@Test
+	public void testSelectSort(){
+		int [] arr = new int[]{3,4,1,5,7,8};
+		bubble(arr);
+		printlnArray(arr);
+	}
+
+	/**
+	 * 选择排序，面试练习，小的先排前
+	 * @param arr
+	 */
+	public void selectSort(int [] arr){
+		for(int i=0;i<arr.length;i++){
+			for(int j=i;j<arr.length;j++){
+				if (arr[i]>arr[j]){
+					swap(arr,i,j);
+				}
+			}
+		}
+	}
+	private void swap(int [] arr,int i,int j){
+		int temp = arr[i];
+		arr[i] = arr [j];
+		arr[j] = temp;
+	}
+	private void printlnArray(int[] arr){
+		for (int i:arr){
+			System.out.print(i);
+		}
+		System.out.println();
+	}
+
+	/**
+	 * 冒泡程序，面试训练
+	 * @param arr
+	 */
+	public void bubble(int [] arr){
+		for(int i=0;i<arr.length;i++){
+			for (int j=0;j<arr.length-i-1;j++){
+				if(arr[j]<arr[j+1]){
+					swap(arr,j,j+1);
+				}
+			}
+		}
+	}
+
 }
