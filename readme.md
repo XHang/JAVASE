@@ -10,17 +10,17 @@
 1. 批处理
 2. DML语句
 3. oracle的PLSQL语句
-  附上PLSQL的程序代码
-  <pre>
-  create or replace procedure p
-  (v_a in number,v_b in number,v_sum out number,v_temp in out number)
-  is
-  begin
-  v_sum:=v_a+v_b;
-  v_temp:=v_temp+1;
-  end;
-  /
-  </pre>
+    附上PLSQL的程序代码
+    <pre>
+    create or replace procedure p
+    (v_a in number,v_b in number,v_sum out number,v_temp in out number)
+    is
+    begin
+    v_sum:=v_a+v_b;
+    v_temp:=v_temp+1;
+    end;
+    /
+    </pre>
 4. 不定参数
 5. 可以滚蛋的结果集
 6. 事务处理
@@ -35,12 +35,12 @@
 1. 演示了线程的抢占性
 
 2. 演示了售票程序，也就是线程并发问题。
-  指的一提的是，这个线程并发问题解决的还不是完美。
-  因为锁的判断要消耗一定的系统资源，所以还可以优化
+    指的一提的是，这个线程并发问题解决的还不是完美。
+    因为锁的判断要消耗一定的系统资源，所以还可以优化
 
 3. 锁的优化在设计模式中的单例设计模式中。  
-  关于单例模式的饿汉式和冷汉式  
-  由于线程的并发，会产生一些问题  
+    关于单例模式的饿汉式和冷汉式  
+    由于线程的并发，会产生一些问题  
 
 4. 特别说明的是，在同步代码块中（也就是被锁起来的代码中），如果线程wait了。
 
@@ -53,6 +53,27 @@
    静态方法加锁的话，锁对象是Class对象
 
    以上，不想为这个知识点码代码了，各位记一下，脑子里有一个映像就行
-   
+
  6. 特别说明，如果要执行notify或者signal的代码，必须在同步代码块里面执行。
- 否则抛一个java.lang.IllegalMonitorStateException异常你都不知道怎么肥事。
+     否则抛一个java.lang.IllegalMonitorStateException异常你都不知道怎么肥事。
+
+# 有趣的Java知识
+
+1. 
+
+有两个类，
+
+一个是`java.lang.Iterable`   意味可以迭代的
+
+一个是`java.uitl.Iterator` 意味迭代器
+
+这两个类不要混淆了
+
+第一个类是基本的所有list都会实现的。
+
+另一个是迭代器，可以实现某个容器的迭代模式
+
+要是有某个方法的参数接受`Iterable`对象，然后惊奇的发现可以传list集合进去，别自以为形参是迭代器对象，实参就可以是list集合的，不存在的，tan90
+
+
+
