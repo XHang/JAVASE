@@ -59,9 +59,9 @@
 
 # 有趣的Java知识
 
-1. 
+## Iterable 和Iterator
 
-有两个类，
+1. 有两个类
 
 一个是`java.lang.Iterable`   意味可以迭代的
 
@@ -74,6 +74,29 @@
 另一个是迭代器，可以实现某个容器的迭代模式
 
 要是有某个方法的参数接受`Iterable`对象，然后惊奇的发现可以传list集合进去，别自以为形参是迭代器对象，实参就可以是list集合的，不存在的，tan90
+
+## JDK7的comprae方法
+
+1. JDK1.7升级后，对comprae方法做出了新的限制，该限制如果不被满足，在使用Sort将会抛出一个异常
+
+   ```
+   Comparison method violates its general contract
+   ```
+
+   解决办法有两个，一个就是加个`-Djava.util.Arrays.useLegacyMergeSort=`true
+
+一个就是修改你的代码，符合新的要求
+
+为什么会报错呢？
+
+究其原因，是因为JDK1.7 后，Sort方法内部使用的算法改成了TimeSort
+
+这个算法在使用不科学的排序时，就会抛如上的异常。
+
+
+
+
+
 
 # SSLSocket通信
 首先认识下SSL协议吧
@@ -234,7 +257,7 @@ SSL的协议的基本流程是酱紫的
 
    意思就是用`TEST_ROOT.jks `里面`TEST_ROOT`的密钥，来对`test_server.csr`证书请求文件进行签名，生成已签名的证书文件。保存在`test_server.cer`文件里面。
 
-   
+
 
    第二种方式，就是从jks，密钥库中导出证书，命令行是这个
 
@@ -242,27 +265,23 @@ SSL的协议的基本流程是酱紫的
 
    意思是从jks文件中读取`TEST_ROOT `关联的证书文件，并存储在`test_root.cer`文件中
 
-   
-
 4. 顺便介绍几个命令
 
    `keytool -importcert -alias TEST_ROOT -file test_root.cer -keystore TEST_SERVER.jks `
 
    该命令的作用是将证书导入到jks文件中，前提是jks文件不含`TEST_ROOT `别名的条目，否则就是更新证书，而不是导入证书了。
 
-   
+
 
    `keytool – printcert – v – file test_server.cer `
 
    打印证书信息
 
-   
+
 
    `keytool – list – v – keystore test_server.jks `
 
    显示jks文件的条目信息
-
-   
 
 5. 证书其实是以证书链的形式组织的，一个证书，在他变成证书之前需要被中级证书签署，而中级证书又要被根证书签署。这样就构成了一条证书链`根证书--> 中级证书---> SSL证书`只有当整个证书链的证书都是可信时，整个证书验证的结果才是可信。
 
@@ -274,23 +293,6 @@ SSL的协议的基本流程是酱紫的
 
    这样就是把server.crt证书导入到tclient.keystore,信任证书列表了
 
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
 
 ## 实验1，尝试SSL握手而无需客户端验证
 
@@ -306,25 +308,22 @@ SSL的协议的基本流程是酱紫的
 
     执行此条命令，就生成了一个密钥库，里面含有一个名称叫`myserver `的密钥
 
-	2. 从上次生成的`myserver.jks `文件中导出证书文件
+    2. 从上次生成的`myserver.jks `文件中导出证书文件
 
     `keytool -export -alias myserver -file myserver.cre -keystore myserver.jks `
 
     > 意思就是说从`myserver.jks`密钥库中找到`myserver `的密钥，然后导出为证书
 
-    
-
-    
 
 
 
-  
 
-  
 
-  
 
-  
+
+
+
+
 
 
 
