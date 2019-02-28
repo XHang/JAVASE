@@ -56,6 +56,35 @@
 
  6. 特别说明，如果要执行notify或者signal的代码，必须在同步代码块里面执行。
      否则抛一个java.lang.IllegalMonitorStateException异常你都不知道怎么肥事。
+## final的小知识
+其实final的作用一般java程序员都能理清楚,但是我觉得,final的String会比较特殊一点
+举例子
+```
+     String a = "hello2";
+        final String b = "hello";
+        String d = "hello";
+        String c = b + 2;
+        String e = d + 2;
+        System.out.println((a == c));  //true
+        System.out.println((a == e));  //fasle
+```
+这段代码执行完的结果如上所示
+我们知道`==`判断的是变量的引用是否相同,或者说指向的堆地址是否一样
+如果咋一看代码,`c`和`e`都是在运行时使用字符串的连接,连成一个新的字符串对象,也就是说,指向的是新的堆内对象.所以至少第一个判断就不应该为true才是..
+但是实际上,它的确为true.其原因是常量b在编译时期,就能确定值,编译器就会把所有b变量都替换成那个常量值,类似于c语言的宏替换.
+所以实际上,编译后的结果是
+```
+ String a = "hello2";
+        String b = "hello";
+        String d = "hello";
+        String c = "hello2";
+        String e = d + 2;
+        System.out.println(a == c);
+        System.out.println(a == e);
+```
+运行时,也是按照这个编译后的代码去运行的
+字符串变量声明所用的字符串都一样,运行时会使用在堆里面同样的字符串常量. 
+以上
 
 # 有趣的Java知识
 
