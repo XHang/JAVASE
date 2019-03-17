@@ -91,4 +91,12 @@ public class JavaSeTest {
 		}
 	}
 
+	@Test
+	public void testNumber(){
+		long s1= 2147483648L;
+		long s2= 2147483648L;
+		int result = (int) (s1+s2);
+		System.out.println(result);
+	}
+
 }

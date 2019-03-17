@@ -1,12 +1,83 @@
-# 该项目试图整理我之前写的java基础
+# Java基础
 包含一下内容，欢迎补充
-## 集合框架
+
+# 一：语法
+
+## 1.1：final的小知识
+
+其实final的作用一般java程序员都能理清楚,但是我觉得,final的String会比较特殊一点
+举例子
+
+```
+     String a = "hello2";
+        final String b = "hello";
+        String d = "hello";
+        String c = b + 2;
+        String e = d + 2;
+        System.out.println((a == c));  //true
+        System.out.println((a == e));  //fasle
+```
+
+这段代码执行完的结果如上所示
+我们知道`==`判断的是变量的引用是否相同,或者说指向的堆地址是否一样
+如果咋一看代码,`c`和`e`都是在运行时使用字符串的连接,连成一个新的字符串对象,也就是说,指向的是新的堆内对象.所以至少第一个判断就不应该为true才是..
+但是实际上,它的确为true.其原因是常量b在编译时期,就能确定值,编译器就会把所有b变量都替换成那个常量值,类似于c语言的宏替换.
+所以实际上,编译后的结果是
+
+```
+ String a = "hello2";
+        String b = "hello";
+        String d = "hello";
+        String c = "hello2";
+        String e = d + 2;
+        System.out.println(a == c);
+        System.out.println(a == e);
+```
+
+运行时,也是按照这个编译后的代码去运行的
+字符串变量声明所用的字符串都一样,运行时会使用在堆里面同样的字符串常量. 
+以上
+
+## 1.2：switch参数
+
+这里只讲一点，就是switch能作把什么作为参数
+
+告诉你，只有int
+
+那为什么网上说，`byte`  `char`  `String` `short`  都可以作为switch参数呢？
+
+那是因为上面的类型都可以直接转成int，而且不会丢失精度。
+
+`String`是很特殊的一个，从jdk1.7之后，才支持作为String的参数，其实是编译器做了优化。
+
+编译源文件后，String会用它的哈希码，也是int类型，作为switch参数
+
+# 二：常见类知识
+
+## 2.1：集合框架
+
 1. 演示fill方法和reverse方法和replaceAll方法并实现一个部分替换的方法
 
-## 反射
+### 2.1.1：Iterable 和Iterator
+
+1. 有两个类
+
+一个是`java.lang.Iterable`   意味可以迭代的
+
+一个是`java.uitl.Iterator` 意味迭代器
+
+这两个类不要混淆了
+
+第一个类是基本的所有list都会实现的。
+
+另一个是迭代器，可以实现某个容器的迭代模式
+
+要是有某个方法的参数接受`Iterable`对象，然后惊奇的发现可以传list集合进去，别自以为形参是迭代器对象，实参就可以是list集合的，不存在的，tan90
+
+## 2.2：反射
 1. 演示最基础的方法
 
-## JDBC
+## 2.3：JDBC
 1. 批处理
 2. DML语句
 3. oracle的PLSQL语句
@@ -26,10 +97,12 @@
 6. 事务处理
 7. 结果集更新
 
-## 字节流
+## 2.4：字节流
 注1：InputStream对象的available可以返回这个字节流中可以读取的字节数  
 
-## 线程的并发问题
+# 三：并发编程
+
+## 3.1线程的并发问题
 具体请查看测试代码里面的com.cxh.thread包，有一个ThreadExtendsImplTest
 演示的几个方面的并发问题代码
 1. 演示了线程的抢占性
@@ -56,55 +129,62 @@
 
  6. 特别说明，如果要执行notify或者signal的代码，必须在同步代码块里面执行。
      否则抛一个java.lang.IllegalMonitorStateException异常你都不知道怎么肥事。
-## final的小知识
-其实final的作用一般java程序员都能理清楚,但是我觉得,final的String会比较特殊一点
-举例子
-```
-     String a = "hello2";
-        final String b = "hello";
-        String d = "hello";
-        String c = b + 2;
-        String e = d + 2;
-        System.out.println((a == c));  //true
-        System.out.println((a == e));  //fasle
-```
-这段代码执行完的结果如上所示
-我们知道`==`判断的是变量的引用是否相同,或者说指向的堆地址是否一样
-如果咋一看代码,`c`和`e`都是在运行时使用字符串的连接,连成一个新的字符串对象,也就是说,指向的是新的堆内对象.所以至少第一个判断就不应该为true才是..
-但是实际上,它的确为true.其原因是常量b在编译时期,就能确定值,编译器就会把所有b变量都替换成那个常量值,类似于c语言的宏替换.
-所以实际上,编译后的结果是
-```
- String a = "hello2";
-        String b = "hello";
-        String d = "hello";
-        String c = "hello2";
-        String e = d + 2;
-        System.out.println(a == c);
-        System.out.println(a == e);
-```
-运行时,也是按照这个编译后的代码去运行的
-字符串变量声明所用的字符串都一样,运行时会使用在堆里面同样的字符串常量. 
-以上
 
-# 有趣的Java知识
 
-## Iterable 和Iterator
 
-1. 有两个类
+# 四：深入理解
 
-一个是`java.lang.Iterable`   意味可以迭代的
+## 4.1引用面面观
 
-一个是`java.uitl.Iterator` 意味迭代器
+你可能只听说过引用，却不知道引用其实分为四类
 
-这两个类不要混淆了
+以下介绍这四种引用
 
-第一个类是基本的所有list都会实现的。
+1. 强引用 ： 这个引用是我们经常用的，形如`String a=xxx` 或者`Integer i =1`;
 
-另一个是迭代器，可以实现某个容器的迭代模式
+   都是强引用(`Strong Reference`)
 
-要是有某个方法的参数接受`Iterable`对象，然后惊奇的发现可以传list集合进去，别自以为形参是迭代器对象，实参就可以是list集合的，不存在的，tan90
+   这些引用在垃圾收集时，都不会被回收，即使内存不足
 
-## JDK7的comprae方法
+2. 弱软用(`Soft Reference`)，这个需要特殊的写法才能实现
+
+   `SoftReference sr=new SoftReference(new Person());`
+
+   这个代码建立的就是弱引用，稍次于强引用,这句代码建立的`person`对象，是可以被垃圾收集器回收的
+
+   只不过只有在堆内存空间不够的情况下，才会回收。
+
+3. 弱引用(`Weak Reference`)  需要这么实现
+
+   `WeakReference wr=new WeakReference(new Person());`
+
+   在垃圾收集时，只要上面那句代码创建的`person`对象被发现了，立马收集，不留余地
+
+   >我觉得用这种引用来设计缓存是可以的，因为不像软引用，它必须得内存不够了才会回收。
+   >
+   >这样会导致GC的时刻的提前到来。
+   >
+   >弱引用它随时随地都可以回收，所以不会积攒对象到内存不足
+
+4. 虚引用`Phantom Reference`  其实也跟弱引用一样，在垃圾收集时，随时可被回收
+
+   但是还是有区别，虚引用在使用时必须和引用队列联合使用。以便在虚引用所引用的对象被垃圾回收时
+
+   在程序中，可以收到通知
+
+## 4.2 基本类型的一些有趣的地方
+
+`byte、char、short`  这些类型自己相加后得到的类型，是`int`类型
+
+至于为什么是这样子的，是因为对于这些类型，jvm虚拟机里面并没有对应的指令去运算。
+
+实际上用的是int的指令去运算的，也就是它们在运行时会转成int去计算，当然得到的结果也就是int了
+
+> 可以强制类型转换，不过不建议，会丢失精度
+
+
+
+## 4.3:JDK7的comprae方法
 
 1. JDK1.7升级后，对comprae方法做出了新的限制，该限制如果不被满足，在使用Sort将会抛出一个异常
 
@@ -112,7 +192,7 @@
    Comparison method violates its general contract
    ```
 
-   解决办法有两个，一个就是加个`-Djava.util.Arrays.useLegacyMergeSort=`true
+   解决办法有两个，一个就是加个`-Djava.util.Arrays.useLegacyMergeSort=true`
 
 一个就是修改你的代码，符合新的要求
 
@@ -122,12 +202,14 @@
 
 这个算法在使用不科学的排序时，就会抛如上的异常。
 
+# 五：Java规范
+
+1. 根据 Java 规范，使用 equal() 方法来判断两个相等的对象，必须具有相同的 hashcode。
 
 
 
 
-
-# SSLSocket通信
+# 六：SSLSocket通信
 首先认识下SSL协议吧
 
 ssl协议的基本思路是采用公钥加密法，也就是说，客户端先向服务端请求公钥，然后用这个公钥加密信息。发给服务端，服务端再用密钥解密信息。
@@ -145,7 +227,7 @@ SSL的协议的基本流程是酱紫的
 
 前两步，又称握手阶段
 
-## SSLSocket的详细过程
+## 6.1：SSLSocket的详细过程
 
 1. 客户端向服务端发起加密通信的请求，里面包含以下信息
 
@@ -195,7 +277,7 @@ SSL的协议的基本流程是酱紫的
 >
 > 整个加密传输是否安全，取决于第三次握手传输的随机数能不能被破解。
 
-## SSLSocket常用类介绍
+## 6.2：SSLSocket常用类介绍
 1. `SSLSocketFactory`  这是一个工厂类，可以用于生成`SSLSocket `
 
    听名字就知道它是一个工厂类，用于产出对象的。
@@ -226,7 +308,7 @@ SSL的协议的基本流程是酱紫的
 
 4. `SSLServerSocket`这是一个服务端的安全套接字，类似于`SSLSocket`
 
-## SSL工作方式
+## 6.3：SSL工作方式
 
 有两种：
 
@@ -256,7 +338,7 @@ SSL的协议的基本流程是酱紫的
 
    除了客户端的证书验证外，其他工作流程没有任何改变，这种情况下，通讯客户端的用户名和密码验证变得多余
 
-## 专有名称解释
+## 6.4: 专有名称解释
 
 1. `jks` 是密钥库，里面存储的是密钥和证书.
 
@@ -321,27 +403,6 @@ SSL的协议的基本流程是酱紫的
    `keytool -import -alias serverkey -file server.crt -keystore tclient.keystore`
 
    这样就是把server.crt证书导入到tclient.keystore,信任证书列表了
-
-
-## 实验1，尝试SSL握手而无需客户端验证
-
-步骤1： 首先得生成服务端证书，我们可以通过java自带的`keytool `来生成我们的证书
-
-  先准备一个可以
-
- 1. 使用一下命令`keytool -genkeypair -alias myserver -keystore myserver.jks `
-
-    > 该命令的解释是生成一对Key,起一个别名为`myserver `,并指定密钥库的名称`myserver.jks `
-    >
-    > 密钥库的作用是用于存储密钥和证书。可以通过`alias `来搜索KeyStore里面的内容
-
-    执行此条命令，就生成了一个密钥库，里面含有一个名称叫`myserver `的密钥
-
-    2. 从上次生成的`myserver.jks `文件中导出证书文件
-
-    `keytool -export -alias myserver -file myserver.cre -keystore myserver.jks `
-
-    > 意思就是说从`myserver.jks`密钥库中找到`myserver `的密钥，然后导出为证书
 
 
 
