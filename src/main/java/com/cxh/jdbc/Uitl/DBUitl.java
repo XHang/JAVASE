@@ -1,5 +1,7 @@
 package com.cxh.jdbc.Uitl;
 
+import com.cxh.jdbc.enums.DataBaseType;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -26,6 +28,22 @@ public class DBUitl {
 		//new oracle.jdbc.driver.OracleDriver();
 		//1521是oracle的监听器端口，orcl是实例名
 		return DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", userName,password);//如果这句程
+	}
+	public static Connection getConncetion(String userName, String password, DataBaseType type ){
+		try {
+			switch (type){
+				case MYSQL:
+					Class.forName(DataBaseType.MYSQL.getDriveClass()).newInstance();
+					return DriverManager.getConnection(DataBaseType.MYSQL.getUrl(), userName,password);
+				case ORACLE:
+					Class.forName(DataBaseType.ORACLE.getDriveClass()).newInstance();
+					return DriverManager.getConnection(DataBaseType.ORACLE.getUrl(), userName,password);
+					default:
+						throw new IllegalArgumentException("Not Support this DataBaseType!");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("connection database Fail",e);
+		}
 	}
 	
 	/**
